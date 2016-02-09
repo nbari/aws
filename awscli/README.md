@@ -31,6 +31,10 @@ outputs something like:
 +------------+----------+--------------+---------------+
 ```
 
-Get CPUUtilization Average in last 10 minutes:
+Get CPUUtilization Average in last 10 minutes with a period of 60 seconds:
 
     aws cloudwatch get-metric-statistics --metric-name CPUUtilization --namespace AWS/EC2 --statistics Average --dimensions Name=AutoScalingGroupName,Value=name-of-group --start-time `date -u -v-10M '+%FT%TZ'` --end-time `date -u '+%FT%TZ'` --period 60
+
+with jq:
+
+    aws cloudwatch get-metric-statistics --metric-name CPUUtilization --namespace AWS/EC2 --statistics Average --dimensions Name=AutoScalingGroupName,Value=name-of-group --start-time `date -u -v-10M '+%FT%TZ'` --end-time `date -u '+%FT%TZ'` --period 60  | jq '.Datapoints[0] | .Average'
