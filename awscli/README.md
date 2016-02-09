@@ -5,3 +5,7 @@ List instances by tags:
 or
 
     aws ec2 describe-tags --filters Name=tag:Salt,Values=HAProxy_VPC
+
+With jq:
+
+    aws ec2 describe-tags --filters Name=tag:Salt,Values=HAProxy_VPC | jq '.Tags[].ResourceId'
