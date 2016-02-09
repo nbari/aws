@@ -30,3 +30,7 @@ outputs something like:
 |  i-92908e19|  running |  eu-west-1b  |  10.0.17.82   |
 +------------+----------+--------------+---------------+
 ```
+
+Get CPUUtilization Average in last 10 minutes:
+
+    aws cloudwatch get-metric-statistics --metric-name CPUUtilization --namespace AWS/EC2 --statistics Average --dimensions Name=AutoScalingGroupName,Value=name-of-group --start-time `date -u -v-10M '+%FT%TZ'` --end-time `date -u '+%FT%TZ'` --period 60
