@@ -1,0 +1,40 @@
+# may require pip install boto
+- hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+    - name: Create VPC
+      ec2_vpc:
+        region: eu-west-1
+        state: present
+        cidr_block: 10.0.0.0/16
+        resource_tags: { "Name": "NAME OF THE VPC" }
+        subnets:
+          - cidr: 10.0.0.0/24
+            az: eu-west-1a
+            resource_tags: { "Name": "public A" }
+          - cidr: 10.0.1.0/24
+            az: eu-west-1b
+            resource_tags: { "Name": "public B" }
+          - cidr: 10.0.2.0/24
+            az: eu-west-1c
+            resource_tags: { "Name": "public C" }
+          - cidr: 10.0.8.0/21
+            az: eu-west-1a
+            resource_tags: { "Name": "private NAT A" }
+          - cidr: 10.0.16.0/21
+            az: eu-west-1b
+            resource_tags: { "Name": "private NAT B" }
+          - cidr: 10.0.24.0/21
+            az: eu-west-1c
+            resource_tags: { "Name": "private NAT C" }
+        internet_gateway: True
+        route_tables:
+          - subnets:
+              - 10.0.0.0/24
+              - 10.0.1.0/24
+              - 10.0.2.0/24
+            routes:
+              - dest: 0.0.0.0/0
+                gw: igw
