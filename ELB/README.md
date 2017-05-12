@@ -1,3 +1,7 @@
+Get list-metrics:
+
+    aws cloudwatch list-metrics --namespace AWS/ELB
+
 Check contents of a policy:
 
     aws elb describe-load-balancer-policies --policy-names ELBSecurityPolicy-2016-08 | jq '.PolicyDescriptions[] .PolicyAttributeDescriptions[] | select(.AttributeValue == "true")'
