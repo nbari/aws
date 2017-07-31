@@ -1,0 +1,41 @@
+{
+    "Version": "2012-10-17",
+    "Id": "restrict-to-vpc-and-ips",
+    "Statement": [{
+        "Sid": "Restrict access to the VPC Endpoints",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": "s3:*",
+        "Resource": [
+            "arn:aws:s3:::__bucket__",
+            "arn:aws:s3:::__bucket__/*"
+        ],
+        "Condition": {
+            "StringEquals": {
+                "aws:sourceVpce": [
+                    "vpce-a8b65ed1",
+                    "vpce-72b044fb",
+                    "vpce-47b034fe"
+                ]
+            }
+        }
+    }, {
+        "Sid": "Restrict access to the office IPs",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": "s3:*",
+        "Resource": [
+            "arn:aws:s3:::__bucket__",
+            "arn:aws:s3:::__bucket__/*"
+        ],
+        "Condition": {
+            "IpAddress": {
+                "aws:SourceIp": [
+                    "23.189.27.10/32",
+                    "92.214.21.22/32",
+                    "17.18.42.122/32"
+                ]
+            }
+        }
+    }]
+}
